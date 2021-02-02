@@ -52,9 +52,7 @@
             >
               <img src="../../assets/images/svgs/Icon-move.svg" class="w-5">
               <span class="text-gray-300 ml-2 text-sm">Keywords</span>
-              <span class="ml-5 text-gray-300">
-                <img src="../../assets/images/svgs/Icon-move.svg" class="w-5">
-              </span>
+              <icon icon="chevron-down" class="ml-5 text-gray-400 text-sm" />
             </button>
             <button
               class="rounded-md bg-transparent filter-width border
@@ -62,7 +60,7 @@
             >
               <img src="../../assets/images/svgs/Icon-pin.svg" class="w-5">
               <span class="text-gray-300 ml-2 text-sm">Location</span>
-              <!-- <img src="../../assets/images/svgs/Icon-pin.svg" class="ml-5 w-5"> -->
+              <icon icon="chevron-down" class="ml-5 text-gray-400 text-sm" />
             </button>
             <button
               class="rounded-md bg-transparent filter-width border
@@ -77,8 +75,7 @@
             >
               <img src="../../assets/images/svgs/Icon-color-palette.svg" class="w-5">
               <span class="orange-text ml-2 text-sm">Design</span>
-              <!-- <icon icon="user-secret" /> -->
-              <!-- <img src="../../assets/images/svgs/Icon-pin.svg" class="ml-5 w-5"> -->
+              <icon icon="check" class="ml-5 orange-text text-sm" />
             </button>
             <button
               class="rounded-md bg-transparent filter-width border
@@ -101,20 +98,24 @@
                     <th>Company</th>
 
                     <th>
-                      Date
-                      <!-- <img src="../../assets/images/svgs/Group 288.svg" class="w-5"> -->
+                      <a href="javascript:;" class="flex justify-center items-center hover">
+                        <span>Date</span>
+                        <img src="../../assets/images/svgs/Group 288.svg" class="w-5 ml-2">
+                      </a>
                     </th>
-                    <th>Salary</th>
+                    <th>
+                      <a href="javascript:;" class="flex justify-center items-center hover">
+                        <span>Salary</span>
+                        <img src="../../assets/images/svgs/Group 288.svg" class="w-5 ml-2">
+                      </a>
+                    </th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-show="loading">
-                    <td colspan="7" class="text-center">
-                      <!-- <i
-                        class="fa fa-spinner fa-spin text-center fa-lg mr-2"
-                      ></i> -->
-                      Loading, please wait...
+                    <td colspan="6">
+                      <p class="text-center">Loading, please wait...</p>
                     </td>
                   </tr>
                   <tr class="text-gray-400 text-sm" v-for="(gig, index) in gigs" :key="index">
