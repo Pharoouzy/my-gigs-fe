@@ -2,10 +2,13 @@
   <div class="">
     <DashboardLayout>
       <template slot="action-button">
-        <button class="rounded-md gig-button px-5 flex hover justify-center items-center py-2">
+        <router-link
+          :to="{ name: 'gigs.create' }"
+          class="rounded-md gig-button px-5 flex hover justify-center items-center py-2"
+        >
           <span class="text-white">New gig</span>
           <span class="ml-3 text-white">+</span>
-        </button>
+        </router-link>
       </template>
       <template slot="content">
         <section class="tab border-b-2 mt-10 border-gray-200">

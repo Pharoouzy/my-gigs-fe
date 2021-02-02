@@ -9,7 +9,7 @@ import 'nprogress/nprogress.css';
 
 Vue.config.productionTip = false;
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://api.mygigs.test/v1' : 'http://api.dev.test/v1';
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://api.mygigs.test/v1' : 'https://mygigs-api.herokuapp.com/v1';
 Object.defineProperty(Vue.prototype, '$http', { value: axios, enumerable: false });
 Object.defineProperty(Vue.prototype, '$nprogress', { value: NProgress, enumerable: false });
 

@@ -12,7 +12,7 @@ const routes = [
   {
     path: '/gigs',
     name: 'gigs.index',
-    component: () => import('../views/gigs/Index.vue'),
+    component: () => import('../views/gigs/Create.vue'),
     children: [
       {
         path: 'create',

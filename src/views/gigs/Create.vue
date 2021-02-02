@@ -1,13 +1,11 @@
 <template>
   <div class="">
     <DashboardLayout>
-      <template slot="action-button">
-        <button class="rounded-md gig-button px-5 flex hover justify-center items-center py-2">
-          <span class="text-white">New gig</span>
-          <span class="ml-3 text-white">+</span>
-        </button>
-      </template>
       <template slot="content">
+        <section class="tab border-b-2 mt-10 border-gray-200"></section>
+        <section class="mt-5">
+          <p class="left">New gig</p>
+        </section>
       </template>
     </DashboardLayout>
   </div>
@@ -27,20 +25,22 @@ export default {
       loading: true,
       gigData: {},
       tags: {},
+      countries: {},
+      message: '',
     };
   },
   mounted() {
     this.getTags();
-    this.getCountry();
+    this.getCountries();
   },
   methods: {
     onCancel() {},
     addGig() {
       this.startLoadingScreen();
-      this.$http.get('gigs')
+      this.$http.post('gigs', this.gigData)
         .then((res) => {
           this.stopLoadingScreen();
-          this.gigs = res.data.data;
+          this.message = res.data.message;
         })
         .catch((err) => {
           this.stopLoadingScreen();
@@ -61,12 +61,12 @@ export default {
           console.log(err.response.data.message);
         });
     },
-    addGig() {
+    getCountries() {
       this.startLoadingScreen();
-      this.$http.get('gigs')
+      this.$http.get('countries')
         .then((res) => {
           this.stopLoadingScreen();
-          this.gigs = res.data.data;
+          this.countries = res.data.data;
         })
         .catch((err) => {
           this.stopLoadingScreen();
