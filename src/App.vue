@@ -1,9 +1,5 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
@@ -16,17 +12,30 @@
   text-align: center;
   color: #2c3e50;
 }
+#nprogress .bar {
+  background: #2F417E !important;
+  // height: 5px !important;
+}
+#nprogress .spinner-icon {
+  border-top-color: #2F417E !important;
+  border-left-color: #2F417E !important;
+}
 
-#nav {
-  padding: 30px;
+::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-track {
+  background: #b05a93;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+::-webkit-scrollbar-thumb {
+  background: rgb(247, 244, 244);
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: #b05a93;
+  width: 8px;
+  cursor: pointer;
 }
 </style>
