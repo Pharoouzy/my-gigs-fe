@@ -108,6 +108,14 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <tr v-show="loading">
+                    <td colspan="7" class="text-center">
+                      <!-- <i
+                        class="fa fa-spinner fa-spin text-center fa-lg mr-2"
+                      ></i> -->
+                      Loading, please wait...
+                    </td>
+                  </tr>
                   <tr class="text-gray-400 text-sm" v-for="(gig, index) in gigs" :key="index">
                     <td>
                       <input type="checkbox" class="w-5 h-5" name="" id="" />
