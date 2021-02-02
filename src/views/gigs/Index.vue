@@ -77,6 +77,7 @@
             >
               <img src="../../assets/images/svgs/Icon-color-palette.svg" class="w-5">
               <span class="orange-text ml-2 text-sm">Design</span>
+              <!-- <icon icon="user-secret" /> -->
               <!-- <img src="../../assets/images/svgs/Icon-pin.svg" class="ml-5 w-5"> -->
             </button>
             <button
