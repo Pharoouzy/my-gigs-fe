@@ -12,14 +12,13 @@ const routes = [
   {
     path: '/gigs',
     name: 'gigs.index',
+    component: () => import('../views/gigs/Index.vue'),
+    children: [],
+  },
+  {
+    path: '/gigs/create',
+    name: 'gigs.create',
     component: () => import('../views/gigs/Create.vue'),
-    children: [
-      {
-        path: 'create',
-        name: 'gigs.create',
-        component: () => import('../views/gigs/Create.vue'),
-      },
-    ],
   },
 ];
 
