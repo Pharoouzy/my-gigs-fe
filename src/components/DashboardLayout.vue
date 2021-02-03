@@ -42,14 +42,13 @@ min-height: 100vh;
 }
 
 .tab-active {
-    border-bottom-width: 2px;
-    border-bottom-color: #fbb30b;
-    top: 1px;
+border-bottom-width: 2px;
+border-bottom-color: #fbb30b;
+top: 1px;
 }
 
 .search-icon {
 top: 50%;
-
 transform: translateY(-50%);
 left: 17px;
 }

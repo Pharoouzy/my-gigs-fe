@@ -8,12 +8,13 @@
         <div class="relative input-width">
           <input
             placeholder="search"
-            type="search"
+            type="Search"
             class="bg-transparent w-full h-10 input-left-padding
-            rounded-md border border-gray.200"
+            rounded-xl border border-gray-200"
           />
           <span class="absolute search-icon">
-            <i class="fas fa-search"></i>
+            <!-- <i class="fas fa-search"></i> -->
+            <icon icon="fa-search" class="ml-5 text-red-400 text-sm" />
           </span>
         </div>
       </div>

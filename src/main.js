@@ -2,7 +2,9 @@ import Vue from 'vue';
 import NProgress from 'nprogress';
 import axios from 'axios';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faChevronDown, faCheck, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronDown, faCheck, faSpinner, faSearch, faDotCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import App from './App.vue';
 import router from './router';
@@ -15,7 +17,7 @@ Vue.config.productionTip = false;
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://api.mygigs.test/v1' : 'https://mygigs-api.herokuapp.com/v1';
 Object.defineProperty(Vue.prototype, '$http', { value: axios, enumerable: false });
 Object.defineProperty(Vue.prototype, '$nprogress', { value: NProgress, enumerable: false });
-library.add(faChevronDown, faCheck, faSpinner);
+library.add(faChevronDown, faCheck, faSpinner, faSearch, faDotCircle);
 Vue.component('icon', FontAwesomeIcon);
 
 Vue.prototype.htmlDecode = (input) => {
