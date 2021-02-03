@@ -14,7 +14,7 @@
           />
           <span class="absolute search-icon">
             <!-- <i class="fas fa-search"></i> -->
-            <icon icon="fa-search" class="ml-5 text-red-400 text-sm" />
+            <!-- <icon icon="fa-search" class="ml-5 text-red-400 text-sm" /> -->
           </span>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import NProgress from 'nprogress';
 import axios from 'axios';
+import VueTailwind from 'vue-tailwind';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faChevronDown, faCheck, faSpinner, faSearch, faDotCircle,
@@ -13,7 +14,7 @@ import './assets/styles/index.css';
 import 'nprogress/nprogress.css';
 
 Vue.config.productionTip = false;
-
+Vue.use(VueTailwind);
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://api.mygigs.test/v1' : 'https://mygigs-api.herokuapp.com/v1';
 Object.defineProperty(Vue.prototype, '$http', { value: axios, enumerable: false });
 Object.defineProperty(Vue.prototype, '$nprogress', { value: NProgress, enumerable: false });

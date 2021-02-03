@@ -54,8 +54,13 @@
                       type="text"
                       placeholder="Role"
                       v-model="gigData.role"
-                      class="border border-gray-200 rounded-md py-2 px-2 w-full"
+                      class="border rounded-md py-2 px-2 w-full border-red-500"
+                      :class="{
+                        'border-red-500': errors.role,
+                        'border-gray-200': !errors.role,
+                      }"
                     >
+                    <form-error-message name="role" :errors="errors"></form-error-message>
                   </div>
                   <div  class="text-left">
                     <label class="text-sm block mb-3 text-gray-400">Company</label>
@@ -74,7 +79,8 @@
                       <select
                         class="border border-gray-200 rounded-md py-3 px-3
                         text-gray-400 w-full bg-white"
-                      v-model="gigData.country_id"
+                        v-model="gigData.country_id"
+                        @change="getStates()"
                       >
                         <option value="">Country</option>
                         <option
@@ -88,12 +94,13 @@
                     </div>
                     <div  class="text-left">
                       <select
+                        v-model="gigData.state_id"
                         class="border border-gray-200 rounded-md py-3 px-3
                         text-gray-400 w-full bg-white"
                       >
                         <option value="">State/Region</option>
                         <option
-                          v-for="(state, index) in states"
+                          v-for="(state, index) in countryStates"
                           :key="index"
                           :value="state.id"
                         >
@@ -105,6 +112,7 @@
                   <div class="text-left mt-4">
                     <input
                       type="text"
+                      v-model="gigData.address"
                       placeholder="Address"
                       class="border border-gray-200 rounded-md py-2 px-2 w-full"
                     >
@@ -112,16 +120,22 @@
                 </div>
                 <div class="text-left mt-10">
                   <label class="text-sm block mb-3 text-gray-400">Tags</label>
-                  <input
-                    type="text"
-                    placeholder="Tags"
-                    class="border border-gray-200 rounded-md py-2 px-2 w-full"
-                  >
+                  <t-rich-select
+                    multiple
+                    :close-on-select="false"
+                    :options="tagNames"
+                    placeholder="Select multiple options"
+                    v-model="gigData.tags"
+                  ></t-rich-select>
                   <p class="text-sm mt-5 text-gray-400">
                     Suggested tags:
-                    <u>full-time</u>,
-                    <u>Contract</u>,
-                    <u>freelance</u>
+                    <a href="javascript:;"
+                      v-for="(tag, index) in tagNames"
+                      :key="index"
+                      class="mr-2"
+                    >
+                      <u>{{ tag }}</u>
+                    </a>
                   </p>
                 </div>
                 <div class="grid grid-cols-2 gap-5 mt-10">
@@ -153,12 +167,14 @@
                     <input
                       type="integer"
                       placeholder="Minimum"
+                      v-model="gigData.min_salary"
                       class="border border-gray-200 rounded-md py-2 px-2 w-full"
                     >
                   </div>
                   <div  class="text-left">
                     <input
                       type="integer"
+                      v-model="gigData.max_salary"
                       placeholder="Maximum"
                       class="border border-gray-200 rounded-md py-2 px-2 w-full"
                     >
@@ -192,15 +208,20 @@
 <script>
 // @ is an alias to /src
 import DashboardLayout from '@/components/DashboardLayout.vue';
+import { TRichSelect } from 'vue-tailwind/dist/components';
+import FormErrorMessage from '@/components/FormErrorMessage.vue';
 
 export default {
   name: 'Create',
   components: {
     DashboardLayout,
+    TRichSelect,
+    FormErrorMessage,
   },
   data() {
     return {
       loading: true,
+      errors: {},
       gigData: {
         role: '',
         company_name: '',
@@ -212,7 +233,11 @@ export default {
         max_salary: '',
       },
       tags: {},
+      tagNames: [],
+      tagIds: [],
       countries: {},
+      states: {},
+      countryStates: {},
       message: '',
       showBasicData: true,
     };
@@ -232,9 +257,11 @@ export default {
         .then((res) => {
           this.stopLoadingScreen();
           this.message = res.data.message;
+          this.$router.push({ name: 'gigs.index' });
         })
         .catch((err) => {
           this.stopLoadingScreen();
+          this.errors = err.response.data.errors;
           // alert(err.response.data.message)
           console.log(err.response.data.message);
         });
@@ -245,6 +272,8 @@ export default {
         .then((res) => {
           this.stopLoadingScreen();
           this.tags = res.data.data;
+          this.tagNames = this.tags.map((tag) => tag.name);
+          this.tagIds = this.tags.map((tag) => tag.id);
         })
         .catch((err) => {
           this.stopLoadingScreen();
@@ -258,12 +287,20 @@ export default {
         .then((res) => {
           this.stopLoadingScreen();
           this.countries = res.data.data;
+          this.states = this.countries.map((country) => country.states);
+          console.log(this.states);
         })
         .catch((err) => {
           this.stopLoadingScreen();
           // alert(err.response.data.message)
           console.log(err.response.data.message);
         });
+    },
+    getStates() {
+      this.startLoadingScreen();
+      // eslint-disable-next-line max-len
+      this.countryStates = this.states[0].filter((state) => state.country_id === this.gigData.country_id)
+      this.stopLoadingScreen();
     },
     startLoadingScreen() {
       this.$nprogress.start();
