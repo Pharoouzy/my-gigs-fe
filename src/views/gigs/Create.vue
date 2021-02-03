@@ -70,6 +70,7 @@
                       placeholder="Company"
                       class="border border-gray-200 rounded-md py-2 px-2 w-full"
                     >
+                    <form-error-message name="role" :errors="errors"></form-error-message>
                   </div>
                 </div>
                 <div class="mt-10">
@@ -91,6 +92,7 @@
                           {{ country.name }}
                         </option>
                       </select>
+                      <form-error-message name="role" :errors="errors"></form-error-message>
                     </div>
                     <div  class="text-left">
                       <select
@@ -107,6 +109,7 @@
                           {{ state.name }}
                         </option>
                       </select>
+                      <form-error-message name="role" :errors="errors"></form-error-message>
                     </div>
                   </div>
                   <div class="text-left mt-4">
@@ -116,6 +119,7 @@
                       placeholder="Address"
                       class="border border-gray-200 rounded-md py-2 px-2 w-full"
                     >
+                    <form-error-message name="role" :errors="errors"></form-error-message>
                   </div>
                 </div>
                 <div class="text-left mt-10">
@@ -123,14 +127,15 @@
                   <t-rich-select
                     multiple
                     :close-on-select="false"
-                    :options="tagNames"
+                    :options="tags"
                     placeholder="Select multiple options"
                     v-model="gigData.tags"
                   ></t-rich-select>
+                  <form-error-message name="role" :errors="errors"></form-error-message>
                   <p class="text-sm mt-5 text-gray-400">
                     Suggested tags:
                     <a href="javascript:;"
-                      v-for="(tag, index) in tagNames"
+                      v-for="(tag, index) in tags"
                       :key="index"
                       class="mr-2"
                     >
@@ -170,6 +175,7 @@
                       v-model="gigData.min_salary"
                       class="border border-gray-200 rounded-md py-2 px-2 w-full"
                     >
+                    <form-error-message name="role" :errors="errors"></form-error-message>
                   </div>
                   <div  class="text-left">
                     <input
@@ -178,6 +184,7 @@
                       placeholder="Maximum"
                       class="border border-gray-200 rounded-md py-2 px-2 w-full"
                     >
+                    <form-error-message name="role" :errors="errors"></form-error-message>
                   </div>
                 </div>
                 <div class="grid grid-cols-2 gap-5 mt-10">
@@ -233,8 +240,6 @@ export default {
         max_salary: '',
       },
       tags: {},
-      tagNames: [],
-      tagIds: [],
       countries: {},
       states: {},
       countryStates: {},
@@ -256,14 +261,13 @@ export default {
       this.$http.post('gigs', this.gigData)
         .then((res) => {
           this.stopLoadingScreen();
-          this.message = res.data.message;
+          this.$toast(res.data.message, { type: 'success' });
           this.$router.push({ name: 'gigs.index' });
         })
         .catch((err) => {
           this.stopLoadingScreen();
           this.errors = err.response.data.errors;
-          // alert(err.response.data.message)
-          console.log(err.response.data.message);
+          this.$toast(err.response.data.message, { type: 'error' });
         });
     },
     getTags() {
@@ -271,14 +275,11 @@ export default {
       this.$http.get('tags')
         .then((res) => {
           this.stopLoadingScreen();
-          this.tags = res.data.data;
-          this.tagNames = this.tags.map((tag) => tag.name);
-          this.tagIds = this.tags.map((tag) => tag.id);
+          this.tags = res.data.data.map((tag) => tag.name);
         })
         .catch((err) => {
           this.stopLoadingScreen();
-          // alert(err.response.data.message)
-          console.log(err.response.data.message);
+          this.$toast(err.response.data.message, { type: 'error' });
         });
     },
     getCountries() {
@@ -288,18 +289,16 @@ export default {
           this.stopLoadingScreen();
           this.countries = res.data.data;
           this.states = this.countries.map((country) => country.states);
-          console.log(this.states);
         })
         .catch((err) => {
           this.stopLoadingScreen();
-          // alert(err.response.data.message)
-          console.log(err.response.data.message);
+          this.$toast(err.response.data.message, { type: 'error' });
         });
     },
     getStates() {
       this.startLoadingScreen();
       // eslint-disable-next-line max-len
-      this.countryStates = this.states[0].filter((state) => state.country_id === this.gigData.country_id)
+      this.countryStates = this.states[0].filter((state) => state.country_id === this.gigData.country_id);
       this.stopLoadingScreen();
     },
     startLoadingScreen() {
