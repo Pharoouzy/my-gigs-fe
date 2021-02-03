@@ -17,6 +17,9 @@
 </template>
 
 <style>
+#app {
+  font-family: 'Karla', sans-serif;
+}
 .sidebar {
 position: fixed;
 top: 0;
@@ -50,7 +53,7 @@ top: 1px;
 .search-icon {
 top: 50%;
 transform: translateY(-50%);
-left: 17px;
+left: 1px;
 }
 
 .input-width {

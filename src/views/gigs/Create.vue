@@ -54,10 +54,10 @@
                       type="text"
                       placeholder="Role"
                       v-model="gigData.role"
-                      class="border rounded-md py-2 px-2 w-full border-red-500"
+                      class="border rounded-md py-2 px-2 w-full"
                       :class="{
                         'border-red-500': errors.role,
-                        'border-gray-200': !errors.role,
+                        'border-gray-200': errors.role,
                       }"
                     >
                     <form-error-message name="role" :errors="errors"></form-error-message>
@@ -68,7 +68,11 @@
                       type="text"
                       v-model="gigData.company_name"
                       placeholder="Company"
-                      class="border border-gray-200 rounded-md py-2 px-2 w-full"
+                      class="border rounded-md py-2 px-2 w-full"
+                      :class="{
+                        'border-red-500': errors.role,
+                        'border-gray-200': errors.role,
+                      }"
                     >
                     <form-error-message name="role" :errors="errors"></form-error-message>
                   </div>
@@ -78,8 +82,12 @@
                   <div class="grid grid-cols-2 gap-5">
                     <div class="text-left">
                       <select
-                        class="border border-gray-200 rounded-md py-3 px-3
+                        class="border rounded-md py-3 px-3
                         text-gray-400 w-full bg-white"
+                        :class="{
+                          'border-red-500': errors.role,
+                          'border-gray-200': errors.role,
+                        }"
                         v-model="gigData.country_id"
                         @change="getStates()"
                       >
@@ -97,8 +105,12 @@
                     <div  class="text-left">
                       <select
                         v-model="gigData.state_id"
-                        class="border border-gray-200 rounded-md py-3 px-3
+                        class="border rounded-md py-3 px-3
                         text-gray-400 w-full bg-white"
+                        :class="{
+                          'border-red-500': errors.role,
+                          'border-gray-200': errors.role,
+                        }"
                       >
                         <option value="">State/Region</option>
                         <option
@@ -117,7 +129,11 @@
                       type="text"
                       v-model="gigData.address"
                       placeholder="Address"
-                      class="border border-gray-200 rounded-md py-2 px-2 w-full"
+                      class="border rounded-md py-2 px-2 w-full"
+                      :class="{
+                        'border-red-500': errors.role,
+                        'border-gray-200': errors.role,
+                      }"
                     >
                     <form-error-message name="role" :errors="errors"></form-error-message>
                   </div>
@@ -129,6 +145,10 @@
                     :close-on-select="false"
                     :options="tags"
                     placeholder="Select multiple options"
+                    :class="{
+                      'border-red-500': errors.role,
+                      'border-gray-200': errors.role,
+                    }"
                     v-model="gigData.tags"
                   ></t-rich-select>
                   <form-error-message name="role" :errors="errors"></form-error-message>
@@ -173,7 +193,11 @@
                       type="integer"
                       placeholder="Minimum"
                       v-model="gigData.min_salary"
-                      class="border border-gray-200 rounded-md py-2 px-2 w-full"
+                      class="border rounded-md py-2 px-2 w-full"
+                      :class="{
+                        'border-red-500': errors.role,
+                        'border-gray-200': errors.role,
+                      }"
                     >
                     <form-error-message name="role" :errors="errors"></form-error-message>
                   </div>
@@ -182,7 +206,11 @@
                       type="integer"
                       v-model="gigData.max_salary"
                       placeholder="Maximum"
-                      class="border border-gray-200 rounded-md py-2 px-2 w-full"
+                      class="border rounded-md py-2 px-2 w-full"
+                      :class="{
+                        'border-red-500': errors.role,
+                        'border-gray-200': errors.role,
+                      }"
                     >
                     <form-error-message name="role" :errors="errors"></form-error-message>
                   </div>

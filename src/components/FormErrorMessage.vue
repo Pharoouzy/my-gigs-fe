@@ -1,12 +1,12 @@
 <template>
   <div v-show="errors[name]">
     <ul role="alert">
-      <li>
+      <li v-for="(error, index) in errors[name]" :key="index">
         <span
           class="flex items-center font-medium tracking-wide
           text-red-500 text-xs mt-1 ml-1"
         >
-          {{ errors[name][0] }}
+          {{ error }}
         </span>
       </li>
     </ul>

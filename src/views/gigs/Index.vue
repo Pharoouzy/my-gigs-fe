@@ -42,9 +42,23 @@
           <div class="pl-10 flex justify-between pr-20">
             <button
               class="rounded-md bg-transparent filter-width border
-              border-gray-200 flex justify-center items-center py-3"
+              flex justify-center items-center py-3"
+              @click="filterGigs('freelance')"
+              :class="{
+                'border-gray-200': filter !== 'freelance',
+                'border-red-300': filter === 'freelance'
+              }"
             >
-              <span class="text-gray-300 text-sm">Freelance</span>
+              <span class="text-gray-300 text-sm"
+              :class="{
+                'text-gray-300': filter !== 'freelance',
+                'orange-text': filter === 'freelance'
+              }">Freelance</span>
+              <icon v-show="filter === 'freelance'" icon="check" class="ml-5 text-sm"
+              :class="{
+                'text-gray-300': filter !== 'freelance',
+                'orange-text': filter === 'freelance'
+              }" />
             </button>
             <button
               class="rounded-md bg-transparent filter-width border
@@ -64,25 +78,66 @@
             </button>
             <button
               class="rounded-md bg-transparent filter-width border
-              border-gray-200 flex justify-center items-center py-3"
+              flex justify-center items-center py-3"
+              @click="filterGigs('remote')"
+              :class="{
+                'border-gray-200': filter !== 'remote',
+                'border-red-200': filter === 'remote'
+              }"
             >
               <img src="../../assets/images/svgs/Icon-globe.svg" class="w-5">
-              <span class="text-gray-300 ml-2 text-sm">Remote Friendly</span>
+              <span class="text-gray-300 ml-2 text-sm"
+              :class="{
+                'text-gray-300': filter !== 'remote',
+                'orange-text': filter === 'remote'
+              }">Remote Friendly</span>
+              <icon v-show="filter === 'remote'" icon="check" class="ml-5 text-sm"
+              :class="{
+                'text-gray-300': filter !== 'remote',
+                'orange-text': filter === 'remote'
+              }" />
             </button>
             <button
               class="rounded-md bg-transparent filter-width border
-              border-red-300 flex justify-center items-center py-3"
+              flex justify-center items-center py-3"
+              @click="filterGigs('design')"
+              :class="{
+                'border-gray-200': filter !== 'design',
+                'border-red-200': filter === 'design'
+              }"
             >
               <img src="../../assets/images/svgs/Icon-color-palette.svg" class="w-5">
-              <span class="orange-text ml-2 text-sm">Design</span>
-              <icon icon="check" class="ml-5 orange-text text-sm" />
+              <span class="ml-2 text-sm"
+              :class="{
+                'text-gray-300': filter !== 'design',
+                'orange-text': filter === 'design'
+              }">Design</span>
+              <icon v-show="filter === 'design'" icon="check" class="ml-5 text-sm"
+              :class="{
+                'text-gray-300': filter !== 'design',
+                'orange-text': filter === 'design'
+              }" />
             </button>
             <button
               class="rounded-md bg-transparent filter-width border
-              border-gray-200 flex justify-center items-center py-3"
+              flex justify-center items-center py-3"
+              @click="filterGigs('contract')"
+              :class="{
+                'border-gray-200': filter === 'contract',
+                'border-red-200': filter === 'contract'
+              }"
             >
               <img src="../../assets/images/svgs/Icon-briefcase.svg" class="w-5">
-              <span class="text-gray-300 ml-2 text-sm">Contract</span>
+              <span class="ml-2 text-sm"
+              :class="{
+                'text-gray-300': filter !== 'contract',
+                'orange-text': filter === 'contract'
+              }">Contract</span>
+              <icon v-show="filter === 'contract'" icon="check" class="ml-5 text-sm"
+              :class="{
+                'text-gray-300': filter !== 'contract',
+                'orange-text': filter === 'contract'
+              }" />
             </button>
           </div>
         </section>
@@ -113,12 +168,22 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-show="loading">
+                  <tr v-show="gigs.length <= 0">
+                    <td colspan="6">
+                      <p class="text-center">No gigs found...</p>
+                    </td>
+                  </tr>
+                  <tr v-if="loading">
                     <td colspan="6">
                       <p class="text-center">Loading, please wait...</p>
                     </td>
                   </tr>
-                  <tr class="text-gray-400 text-sm" v-for="(gig, index) in gigs" :key="index">
+                  <tr
+                    class="text-gray-400 text-sm"
+                    v-for="(gig, index) in gigs"
+                    :key="index"
+                    v-else
+                  >
                     <td>
                       <input type="checkbox" class="w-5 h-5" name="" id="" />
                     </td>
@@ -130,7 +195,7 @@
                       - {{ formatNumber(gig.max_salary) || 0 }}</td>
                     <td>
                       <div class="flex items-center justify-center">
-                        <button class="">
+                        <button class="" @click="deleteGig(gig.id)">
                           <span class="inline-block px-10 py-2 orange-text rounded-md light-orange">
                             Delete
                           </span>
@@ -159,17 +224,48 @@ export default {
   },
   data() {
     return {
-      loading: true,
+      loading: false,
       gigs: {},
       myGigs: {},
       rejectedGigs: {},
+      filter: 'design',
+      countries: {},
+      states: {},
+      tags: [],
     };
   },
   mounted() {
     this.getGigs();
+    this.getCountries();
+    this.getTags();
   },
   methods: {
     onCancel() {},
+    getTags() {
+      this.startLoadingScreen();
+      this.$http.get('tags')
+        .then((res) => {
+          this.stopLoadingScreen();
+          this.tags = res.data.data.map((tag) => tag.name);
+        })
+        .catch((err) => {
+          this.stopLoadingScreen();
+          this.$toast(err.response.data.message, { type: 'error' });
+        });
+    },
+    getCountries() {
+      this.startLoadingScreen();
+      this.$http.get('countries')
+        .then((res) => {
+          this.stopLoadingScreen();
+          this.countries = res.data.data;
+          this.states = this.countries.map((country) => country.states);
+        })
+        .catch((err) => {
+          this.stopLoadingScreen();
+          this.$toast(err.response.data.message, { type: 'error' });
+        });
+    },
     getGigs() {
       this.startLoadingScreen();
       this.$http.get('gigs')
@@ -178,9 +274,34 @@ export default {
           this.gigs = res.data.data;
         })
         .catch((err) => {
+          this.stopLoadingScreen(err);
+          this.$toast(err.response.data.message, { type: 'error' });
+        });
+    },
+    filterGigs(filter) {
+      this.startLoadingScreen();
+      this.$http.get(`gigs/filter/${filter}`)
+        .then((res) => {
           this.stopLoadingScreen();
-          // alert(err.response.data.message)
-          console.log(err.response.data.message);
+          this.gigs = res.data.data.gigs;
+          this.filter = filter;
+        })
+        .catch((err) => {
+          this.stopLoadingScreen(err);
+          this.$toast(err.response.data.message, { type: 'error' });
+        });
+    },
+    deleteGig(gigId) {
+      this.startLoadingScreen();
+      this.$http.delete(`gigs/${gigId}`)
+        .then((res) => {
+          this.stopLoadingScreen();
+          this.getGigs();
+          this.$toast(res.data.message, { type: 'success' });
+        })
+        .catch((err) => {
+          this.stopLoadingScreen();
+          this.$toast(err.response.data.message, { type: 'error' });
         });
     },
     startLoadingScreen() {
