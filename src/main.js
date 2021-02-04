@@ -18,7 +18,7 @@ import 'vue-toastification/dist/index.css';
 Vue.config.productionTip = false;
 Vue.use(VueTailwind);
 Vue.use(Toast, {});
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://api.mygigs.test/v1' : 'https://gigs.tcore.online//v1';
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://api.mygigs.test/v1' : 'https://gigs.tcore.online/v1';
 Object.defineProperty(Vue.prototype, '$http', { value: axios, enumerable: false });
 Object.defineProperty(Vue.prototype, '$nprogress', { value: NProgress, enumerable: false });
 library.add(faChevronDown, faCheck, faSpinner, faSearch, faDotCircle);
